@@ -2,10 +2,10 @@
 // @name        Bing Chat Conversation Deleter
 // @namespace   Violentmonkey Scripts
 // @match       https://www.bing.com/*
-// @grant       none
+// @license     MIT
 // @version     1.0
-// @author      -
-// @description 25/05/2023, 2:31:06 pm
+// @author      Reddiepoint
+// @description Deletes all recent conversations.
 // ==/UserScript==
 
 function deleteAll() {
