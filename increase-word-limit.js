@@ -21,9 +21,12 @@ addMaxLengthEventListener(document);
 const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
         if (mutation.addedNodes.length > 0) {
-            const element = document.querySelector("#b_sydConvCont > cib-serp").shadowRoot.querySelector("#cib-action-bar-main").shadowRoot.querySelector("#searchbox");
-            addMaxLengthEventListener(element);
-            observer.disconnect();
+            const cibSerpElement = document.querySelector("#b_sydConvCont > cib-serp");
+            if (cibSerpElement) {
+                const element = cibSerpElement.shadowRoot.querySelector("#cib-action-bar-main").shadowRoot.querySelector("#searchbox");
+                addMaxLengthEventListener(element);
+                observer.disconnect();
+            }
         }
     });
 });
