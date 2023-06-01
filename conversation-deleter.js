@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://www.bing.com/*
 // @license     MIT
-// @version     1.0
+// @version     2.0
 // @author      Reddiepoint
 // @description Deletes all recent conversations from Bing Chat.
 // ==/UserScript==
