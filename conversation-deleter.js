@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://www.bing.com/*
 // @license     MIT
-// @version     2.0
+// @version     2.1
 // @author      Reddiepoint
 // @description Deletes all recent conversations from Bing Chat.
 // ==/UserScript==
@@ -16,28 +16,18 @@ const deleteButtonSelector = "div > div.controls > button.delete.icon-button";
 
 function getMainElement() {
     const mainElement = document.querySelector(mainElementSelector);
-    if (!mainElement) {
-        return null;
-    }
+    if (!mainElement) return null;
     const shadowRoot1 = mainElement.shadowRoot;
-    if (!shadowRoot1) {
-        return null;
-    }
+    if (!shadowRoot1) return null;
     const shadowRoot2 = shadowRoot1.querySelector(shadowRootSelector).shadowRoot;
-    if (!shadowRoot2) {
-        return null;
-    }
+    if (!shadowRoot2) return null;
     return shadowRoot2.querySelector(divSelector);
 }
 
 function getDeleteButton(mainElement) {
-    if (!mainElement) {
-        return null;
-    }
+    if (!mainElement) return null;
     const buttonElement = mainElement.querySelector(buttonSelector);
-    if (!buttonElement) {
-        return null;
-    }
+    if (!buttonElement) return null;
     return buttonElement.shadowRoot.querySelector(deleteButtonSelector);
 }
 
@@ -46,11 +36,9 @@ function deleteAll() {
     const button = getDeleteButton(mainElement);
 
     if (button) {
-        setTimeout(function() {
+        setTimeout(() => {
             button.click();
-            if (button) {
-                deleteAll();
-            }
+            if (button) deleteAll();
         }, 50);
     }
 }
@@ -66,9 +54,7 @@ const observer = new MutationObserver(mutations => {
 
                 mainElement && mainElement.appendChild(button);
 
-                button.addEventListener('click', () => {
-                    deleteAll();
-                });
+                button.addEventListener('click', () => deleteAll());
             }
         }
     });
