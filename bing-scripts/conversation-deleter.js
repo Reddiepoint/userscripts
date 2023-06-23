@@ -3,61 +3,67 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://www.bing.com/*
 // @license     MIT
-// @version     2.1
+// @version     3.0
 // @author      Reddiepoint
 // @description Deletes all recent conversations from Bing Chat.
 // ==/UserScript==
 
-const mainElementSelector = "#b_sydConvCont > cib-serp";
-const shadowRootSelector = "#cib-conversation-main > cib-side-panel";
-const divSelector = "div.main > div > div > div";
-const buttonSelector = "cib-thread:nth-child(2)";
-const deleteButtonSelector = "div > div.controls > button.delete.icon-button";
+(function() {
+    'use strict';
 
-function getMainElement() {
-    const mainElement = document.querySelector(mainElementSelector);
-    if (!mainElement) return null;
-    const shadowRoot1 = mainElement.shadowRoot;
-    if (!shadowRoot1) return null;
-    const shadowRoot2 = shadowRoot1.querySelector(shadowRootSelector).shadowRoot;
-    if (!shadowRoot2) return null;
-    return shadowRoot2.querySelector(divSelector);
-}
-
-function getDeleteButton(mainElement) {
-    if (!mainElement) return null;
-    const buttonElement = mainElement.querySelector(buttonSelector);
-    if (!buttonElement) return null;
-    return buttonElement.shadowRoot.querySelector(deleteButtonSelector);
-}
-
-function deleteAll() {
-    const mainElement = getMainElement();
-    const button = getDeleteButton(mainElement);
-
-    if (button) {
-        setTimeout(() => {
-            button.click();
-            if (button) deleteAll();
-        }, 50);
+    function waitForElement(selector) {
+        return new Promise(resolve => {
+            const interval = setInterval(() => {
+                const element = document.querySelector(selector);
+                if (element) {
+                    clearInterval(interval);
+                    resolve(element);
+                }
+            }, 10);
+        });
     }
-}
 
-const observer = new MutationObserver(mutations => {
-    mutations.forEach(mutation => {
-        if (mutation.addedNodes.length > 0) {
-            const mainElement = getMainElement();
-            let existingButton = mainElement && mainElement.querySelector("button");
-            if (!existingButton) {
-                let button = document.createElement("button");
-                button.innerHTML = "Delete All Conversations";
+    async function deleteConversations() {
+        const sidePanel = await waitForElement("#b_sydConvCont > cib-serp");
+        const sidePanelShadowRoot = sidePanel.shadowRoot;
+        const mainDiv = sidePanelShadowRoot.querySelector("#cib-conversation-main > cib-side-panel");
+        const mainDivShadowRoot = mainDiv.shadowRoot;
+        const div = mainDivShadowRoot.querySelector("div.main > div > div > div");
 
-                mainElement && mainElement.appendChild(button);
-
-                button.addEventListener('click', () => deleteAll());
-            }
+        let deleteButton = mainDivShadowRoot.querySelector("div.main > div > div > div > cib-thread:nth-child(2)").shadowRoot.querySelector("div > div.controls > button.delete.icon-button");
+        if (deleteButton) {
+            deleteButton.click();
+            await new Promise(resolve => setTimeout(resolve, 10));
+            const confirmInterval = setInterval(() => {
+                const confirmButton = mainDivShadowRoot.querySelector("div.main > div > div > div > cib-thread:nth-child(2)").shadowRoot.querySelector("div > div.controls > button.confirm.icon-button");
+                if (confirmButton) {
+                    clearInterval(confirmInterval);
+                    confirmButton.click();
+                }
+            }, 10);
+            const restartInterval = setInterval(() => {
+                if (!mainDivShadowRoot.querySelector("div.main > div > div > div > cib-thread:nth-child(2)")) clearInterval(restartInterval);
+                if (mainDivShadowRoot.querySelector("div.main > div > div > div > cib-thread:nth-child(2)").shadowRoot.querySelector("div > div.controls > button.delete.icon-button")) {
+                    clearInterval(restartInterval);
+                    deleteConversations();
+                }
+            }, 10);
         }
-    });
-});
+    }
 
-observer.observe(document.body, { childList: true, subtree: true });
+
+    async function addButton() {
+        const sidePanel = await waitForElement("#b_sydConvCont > cib-serp");
+        const sidePanelShadowRoot = sidePanel.shadowRoot;
+        const mainDiv = sidePanelShadowRoot.querySelector("#cib-conversation-main > cib-side-panel");
+        const mainDivShadowRoot = mainDiv.shadowRoot;
+        const div = mainDivShadowRoot.querySelector("div.main > div > div > div");
+
+        const button = document.createElement("button");
+        button.innerText = "Delete all conversations";
+        button.addEventListener("click", deleteConversations);
+        div.appendChild(button);
+    }
+
+    addButton();
+})();
