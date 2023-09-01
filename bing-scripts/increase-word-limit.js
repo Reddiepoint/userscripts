@@ -23,7 +23,7 @@ const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
         if (mutation.addedNodes.length > 0) {
             const cibSerpElement = document.querySelector("#b_sydConvCont > cib-serp");
-            if (cibSerpElement) {
+            if (cibSerpElement.shadowRoot) {
                 const element = cibSerpElement.shadowRoot.querySelector("#cib-action-bar-main").shadowRoot.querySelector("div > div.main-container.body-2 > div > div.input-row > cib-text-input").shadowRoot.querySelector("#searchbox");
                 addMaxLengthEventListener(element);
                 observer.disconnect();
