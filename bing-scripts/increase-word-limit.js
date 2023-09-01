@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://www.bing.com/*
 // @license     MIT
-// @version     5.2
+// @version     5.3
 // @author      Reddiepoint
 // @description Increases the word limit for Bing Search and Bing Chat to 1000000.
 // ==/UserScript==
