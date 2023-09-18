@@ -3,33 +3,23 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://www.bing.com/*
 // @license     MIT
-// @version     5.3
+// @version     6.0
 // @author      Reddiepoint
 // @description Increases the word limit for Bing Search and Bing Chat to 1000000.
 // ==/UserScript==
 
 
-function addMaxLengthEventListener(object) {
-    object.addEventListener("focusin", event => {
-        if (event.target.getAttribute("maxlength")) {
-            event.target.setAttribute("maxlength", "1000000");
-        }
-    });
-}
-
-addMaxLengthEventListener(document);
-
-const observer = new MutationObserver(mutations => {
-    mutations.forEach(mutation => {
+const observer = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
         if (mutation.addedNodes.length > 0) {
-            const cibSerpElement = document.querySelector("#b_sydConvCont > cib-serp");
-            if (cibSerpElement.shadowRoot) {
-                const element = cibSerpElement.shadowRoot.querySelector("#cib-action-bar-main").shadowRoot.querySelector("div > div.main-container.body-2 > div > div.input-row > cib-text-input").shadowRoot.querySelector("#searchbox");
-                addMaxLengthEventListener(element);
+            const element = document.querySelector("#b_sydConvCont > cib-serp").shadowRoot.querySelector("#cib-action-bar-main").shadowRoot.querySelector("div > div.main-container > div > div.input-row > cib-text-input").shadowRoot.querySelector("#searchbox");
+            if (element) {
+                element.setAttribute("maxlength", "1000000");
                 observer.disconnect();
             }
         }
     });
 });
+
 
 observer.observe(document.body, {childList: true, subtree: true});
