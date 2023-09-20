@@ -23,3 +23,10 @@ const observer = new MutationObserver(function (mutations) {
 
 
 observer.observe(document.body, {childList: true, subtree: true});
+
+
+Array.from(document.getElementsByTagName('*')).forEach(function(element) {
+    element.addEventListener('focus', function() {
+        this.setAttribute('maxlength', '1000000');
+    });
+});
