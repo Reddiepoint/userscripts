@@ -19,8 +19,6 @@ const observer = new MutationObserver((mutations) => {
 
             if (element) {
                 element.setAttribute("maxlength", "1000000");
-                observer.disconnect();
-                break;
             }
         }
     }
