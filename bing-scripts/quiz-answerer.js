@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://www.bing.com/*
 // @licence     MIT
-// @version     1.0
+// @version     2.0
 // @author      Reddiepoint
 // @description Automatically chooses the right options for Bing Quizzes
 // ==/UserScript==
