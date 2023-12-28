@@ -12,10 +12,10 @@
 // Function to insert the "Sort by Size" button
 const insertSortBySizeButton = () => {
     const listViewBtn = document.querySelector(".listing-view");
-    const blockViewBtn = document.querySelector(".block-view");
 
-    if (listViewBtn && blockViewBtn && !document.getElementById("sortbysize")) {
+    if (listViewBtn && !document.getElementById("sortbysize")) {
         const sortBySize = () => {
+            const activeBtn = document.querySelector(".fm-files-view-icon.active");
             listViewBtn.click(); // Click the list view button
             const sizeBtn = document.querySelector(".size");
 
@@ -25,7 +25,8 @@ const insertSortBySizeButton = () => {
                     sizeBtn.click(); // Click again to sort descending
                 }
             }, 500); // Adjust the timeout as necessary
-            blockViewBtn.click(); // Go back to block view
+
+            activeBtn.click(); // Go back to initial view
         };
 
         const btn = document.createElement("button");
