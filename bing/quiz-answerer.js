@@ -10,20 +10,24 @@
 
 
 // Quiz Type: Select 5 Answers
-// Get all elements with the class "b_cards bt_lstcl_card btcc btcNoImg"
-const elements = Array.from(document.querySelectorAll(".b_cards.bt_lstcl_card.btcc.btcNoImg"));
+function selectFiveAnswers() {
+    // Get all elements with the class "b_cards bt_lstcl_card btcc btcNoImg"
+    const elements = Array.from(document.querySelectorAll(".b_cards.bt_lstcl_card.btcc.btcNoImg"));
 
-// Loop through the elements
-setTimeout(() => {
-    elements.forEach(element => {
-        console.log("Running");
-        element.click();
-    });
-}, 500);
+    // Loop through the elements
+    setTimeout(() => {
+        elements.forEach(element => {
+            console.log("Running");
+            element.click();
+        });
+    }, 500);
+}
+
+selectFiveAnswers();
 
 
 // Quiz Type: Select 1 Answer (Out of 4)
-setTimeout(() => {
+function selectOneAnswer() {
     // Get all elements with class "rqOption"
     const elements = document.getElementsByClassName("rqOption");
 
@@ -42,4 +46,38 @@ setTimeout(() => {
             element.click();
         }
     }
-}, 500);
+}
+
+setTimeout(selectOneAnswer, 500)
+
+
+// Quiz Type: This or That
+function thisOrThat() {
+    // Get all elements with class "btOptionText"
+    const optionTextElements = document.getElementsByClassName("btOptionText");
+
+    // Iterate over the optionTextElements
+    for (let i = 0; i < optionTextElements.length; i++) {
+        const optionTextElement = optionTextElements[i];
+
+        // Get the text of the optionTextElement
+        const optionText = optionTextElement.textContent.trim();
+
+        // Get the div with class "btOptionAns" inside the parent element
+        const optionAnsElement = document.querySelector(".btOptionAns");
+
+        // Get the text of the optionAnsElement
+        const optionAnsText = optionAnsElement.textContent.trim();
+
+        // Check if the optionAnsText contains the optionText
+        if (optionAnsText.includes(optionText)) {
+            // Get the parent element of the optionTextElement
+            const parentElement = optionTextElement.parentElement;
+
+            // Click on the parent element
+            parentElement.click();
+        }
+    }
+}
+
+setTimeout(thisOrThat, 500);
