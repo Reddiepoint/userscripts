@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://mega.nz/folder/*
 // @licence     MIT
-// @version     1.0
+// @version     1.1
 // @author      Reddiepoint
 // @description Adds a button that automatically sorts the files in the current folder by size
 // ==/UserScript==
@@ -16,16 +16,18 @@ const insertSortBySizeButton = () => {
     if (listViewBtn && !document.getElementById("sortbysize")) {
         const sortBySize = () => {
             const activeBtn = document.querySelector(".fm-files-view-icon.active");
-            listViewBtn.click(); // Click the list view button
             const sizeBtn = document.querySelector(".size");
 
-            setTimeout(() => {
-                if (sizeBtn) {
+            const clickSizeButtonUntilCorrect = () => {
+                const correctSizeBtn = document.querySelector('.arrow.size.sprite-fm-mono.icon-dropdown.asc');
+                if (!correctSizeBtn) {
                     sizeBtn.click(); // Click once to sort ascending
-                    sizeBtn.click(); // Click again to sort descending
+                    setTimeout(clickSizeButtonUntilCorrect, 50); // Click again after 100 ms
                 }
-            }, 500); // Adjust the timeout as necessary
+            };
 
+            listViewBtn.click(); // Click the list view button
+            setTimeout(clickSizeButtonUntilCorrect, 500);
             activeBtn.click(); // Go back to initial view
         };
 
