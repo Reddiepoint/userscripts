@@ -52,32 +52,32 @@ setTimeout(selectOneAnswer, 500)
 
 
 // Quiz Type: This or That
-function thisOrThat() {
-    // Get all elements with class "btOptionText"
-    const optionTextElements = document.getElementsByClassName("btOptionText");
-
-    // Iterate over the optionTextElements
-    for (let i = 0; i < optionTextElements.length; i++) {
-        const optionTextElement = optionTextElements[i];
-
-        // Get the text of the optionTextElement
-        const optionText = optionTextElement.textContent.trim();
-
-        // Get the div with class "btOptionAns" inside the parent element
-        const optionAnsElement = document.querySelector(".btOptionAns");
-
-        // Get the text of the optionAnsElement
-        const optionAnsText = optionAnsElement.textContent.trim();
-
-        // Check if the optionAnsText contains the optionText
-        if (optionAnsText.includes(optionText)) {
-            // Get the parent element of the optionTextElement
-            const parentElement = optionTextElement.parentElement;
-
-            // Click on the parent element
-            parentElement.click();
-        }
-    }
-}
-
-setTimeout(thisOrThat, 500);
+// function thisOrThat() {
+//     // Get all elements with class "btOptionText"
+//     const optionTextElements = document.getElementsByClassName("btOptionText");
+//
+//     // Iterate over the optionTextElements
+//     for (let i = 0; i < optionTextElements.length; i++) {
+//         const optionTextElement = optionTextElements[i];
+//
+//         // Get the text of the optionTextElement
+//         const optionText = optionTextElement.textContent.trim();
+//
+//         // Get the div with class "btOptionAns" inside the parent element
+//         const optionAnsElement = document.querySelector(".btOptionAns");
+//
+//         // Get the text of the optionAnsElement
+//         const optionAnsText = optionAnsElement.textContent.trim();
+//
+//         // Check if the optionAnsText contains the optionText
+//         if (optionAnsText.includes(optionText)) {
+//             // Get the parent element of the optionTextElement
+//             const parentElement = optionTextElement.parentElement;
+//
+//             // Click on the parent element
+//             parentElement.click();
+//         }
+//     }
+// }
+//
+// setTimeout(thisOrThat, 500);
